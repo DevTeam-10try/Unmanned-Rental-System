@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>시작 페이지</title>
+  <meta charset="utf-8" />
+</head>
+
+<style>
+
+  h1, h2{
+    text-align : center;
+  }
+html, body {
+  height: 70%;
+}
+
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  width: 340px;
+  height: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: #E7708D;
+  box-shadow: 0px 15px 20px rgba(189, 50, 62, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+body{
+  padding:50px;
+  background: white;
+  max-width:21em;
+  margin: 6% auto;
+}
+</style>
+
+<body>
+    <h1>우산을 부탁해</h1>
+    <h2>팀명 : 10트</h2>
+    <br>	
+    <button type = "button" class="button"  onclick = "location.href = 'membership.html'">등록하기</button>
+	<br>
+<br>
+    <button type = "button" class="button" onclick = "location.href = 'borrow_list.html'">미반납자 확인</button>
+
+</body>
+
+</html>
+

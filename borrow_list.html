@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>미반납자 확인</title>
+  <meta charset="utf-8" />
+<style>
+
+body{
+  padding:50px;
+  padding-top:3px;
+  background: white;
+  max-width:50em;
+  margin: 6% auto;
+}
+
+table{
+        margin-left : auto;
+        margin-right : auto;
+        width : 100%;
+        border-spacing: 5px;
+        border-collapse: separate;
+	margin-bottom: 5px;
+	padding: 10px;
+}
+
+th {
+	width: 150px;
+            padding: 10px;
+            font-weight: bold;
+            vertical-align: top;
+            color: #fff;
+            background: #e7708d;
+            margin: 20px 10px;
+}
+
+td{
+	width: 350px;
+            padding: 10px;
+            vertical-align: top;
+}
+
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  width: 500px;
+  height: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+	margin-left: 130px;
+  }
+
+.button:hover {
+  background-color: #E7708D;
+  box-shadow: 0px 15px 20px rgba(189, 50, 62, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+</style>
+
+
+</head>
+
+<body>
+	<h1>미반납자 리스트</h1>
+	
+	<table>
+		<thead>
+			<tr>
+				<th>카드 ID</th>
+				<th>대여자 이름</th>
+				<th>전화번호</th>
+				<th>대여시작시간</th>
+			</tr>
+		</thead>
+		<tbody>
+	  		<?php
+    			$conn = mysqli_connect("localhost","hahat17","10836gkwngus!", "db") or die("fail");
+    			$dbconn = mysqli_select_db($conn, $mysql_db);
+    			mysqli_query("set names utf 8");
+    			mysqli_query($conn, "set session character_set_connection=utf8;");
+			mysqli_query($conn, "set session character_set_results=utf8;");
+			mysqli_query($conn, "set session character_set_client=utf8;");
+    			$query = "select * from borrow";
+    			$result = mysqli_query($conn, $query);
+    			while($row = mysqli_fetch_array($result)){
+
+	  echo '<tr><td>'.$row['card_id'].'</td><td>' .$row['name'].'</td><td>'.$row['phonenumber'].'</td><td>' .$row['borrow_time'].'</td></tr>';
+    			}
+	  		?>
+		</tbody>
+	</table>
+
+	<button type = "button" class="button" onclick = "location.href = 'index.html'">뒤로가기</button>
+</body>
+</html>
+
