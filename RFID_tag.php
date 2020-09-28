@@ -1,5 +1,5 @@
 <?php
-	$con = mysqli_connect("localhost","hahat17","10836gkwngus!","db");
+	$con = mysqli_connect("localhost","username","password","db");
 
 	$card_id = $_GET['card_id'];
 
