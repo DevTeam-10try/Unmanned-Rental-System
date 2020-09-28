@@ -91,7 +91,7 @@ td{
 		</thead>
 		<tbody>
 	  		<?php
-    			$conn = mysqli_connect("localhost","hahat17","10836gkwngus!", "db") or die("fail");
+    			$conn = mysqli_connect("localhost","username","password", "db") or die("fail");
     			$dbconn = mysqli_select_db($conn, $mysql_db);
     			mysqli_query("set names utf 8");
     			mysqli_query($conn, "set session character_set_connection=utf8;");
