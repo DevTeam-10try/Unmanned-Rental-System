@@ -10,11 +10,11 @@
 
 MFRC522 rfid(SDA_PIN, RST_PIN);   // rfid로 객체 생성
 
-#define SSID        "blank"  /// wifi 값 바꾸기!!!!!
+#define SSID        "wifi명"  /// wifi 값 바꾸기!!!!!
 
-#define PASSWORD    "1234gogogo1289"  
+#define PASSWORD    "비밀번호"  
 
-#define SERVERIP   "3.17.27.104" //!!!!!!인스턴스 주소 계속 바뀌니까 중지하고 킬때마다 이 값 변경해주기!!!!!!
+#define SERVERIP   "ip" //!!!!!!인스턴스 주소 계속 바뀌니까 중지하고 킬때마다 이 값 변경해주기!!!!!!
 
 #define BT_RXD 2 
 #define BT_TXD 3 
