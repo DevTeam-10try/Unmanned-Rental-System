@@ -1,6 +1,24 @@
 #include "ESP8266.h"
 #include <SoftwareSerial.h>  
 #include <String.h> 
+// include the library code:
+#include <LiquidCrystal.h>
+#include <Servo.h>
+Servo servo;
+
+
+
+// initialize the library by associating any needed LCD interface pin
+// with the arduino pin number it is connected to
+const int rs = A1, en = A2, d4 = 4, d5 = 6, d6 = 7, d7 = 5; //8핀이 물결이여야하는데 임시로 일단함
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+
+
+//int servo_Pin=5;
+int servo_Pin=A0;
+int min_value =544;
+int max_value =2400;
 
 #include <SPI.h>
 #include <MFRC522.h>
@@ -10,26 +28,34 @@
 
 MFRC522 rfid(SDA_PIN, RST_PIN);   // rfid로 객체 생성
 
-#define SSID        "wifi명"  /// wifi 값 바꾸기!!!!!
+#define SSID        "wifi"  /// wifi 값 바꾸기!!!!!
 
-#define PASSWORD    "비밀번호"  
+#define PASSWORD    "pw"  
 
 #define SERVERIP   "ip" //!!!!!!인스턴스 주소 계속 바뀌니까 중지하고 킬때마다 이 값 변경해주기!!!!!!
 
 #define BT_RXD 2 
 #define BT_TXD 3 
-SoftwareSerial mySerial(BT_RXD, BT_TXD); 
 
+SoftwareSerial mySerial(BT_RXD, BT_TXD); 
+    
 void setup() { 
-  Serial.begin(9600);    
+
+  Serial.begin(9600); 
+  
   SPI.begin();      // Initiate  SPI bus
   rfid.PCD_Init();   // RFID 시작
- /////////////////////////////////////////////////////////////////////////  
+ /////////////////////////////////////////////////////////////////////////
+ lcd.begin(16, 2);
+  lcd.print("Umbrella");
+  lcd.setCursor(0,1);
+  lcd.print("Waiting Wifi...");
+  
   Serial.setTimeout(5000);  
   mySerial.begin(9600);   
   Serial.println("ESP8266 connect");  
-  
-    
+   // set up the LCD's number of columns and rows:
+ 
    boolean connected=false;  
    for(int i=0;i<10;i++)  
    {  
@@ -44,10 +70,13 @@ void setup() {
    delay(5000);  
     
    mySerial.println("AT+CIPMUX=0");  
+
+  lcd.clear();
 }
 
 boolean connectWiFi()  
 {  
+  
    mySerial.println("AT+CWMODE=3");  
      
    String cmd="AT+CWJAP=\"";  
@@ -78,12 +107,17 @@ boolean connectWiFi()
 void loop(void)    
 {     
   //Serial.print("in the Loop");    
-  //Serial.println("DONE");    
-    
+  //Serial.println("DONE");      
+
+
+lcd.clear();
+  lcd.print("Waiting Tagging");
+  
   String cmd = "AT+CIPSTART=\"TCP\",\"";  
      cmd += SERVERIP;  
      cmd += "\",80";  
-     //Serial.println(cmd);
+     Serial.println(cmd); //중요!
+     
      Serial.println("Waiting for tagging...");
      mySerial.println(cmd);  
      char mytemp2[16] = "Error";
@@ -145,6 +179,7 @@ Serial.println(rfid.uid.size);
     int temp = 100;
 
      cmd = "GET /RFID_tag.php?card_id="+ch+"\r\n";  // !!!!수정!!!!
+     //cmd = "GET /test.html";  // !!!!수정!!!!
      mySerial.print("AT+CIPSEND=");  
      mySerial.println(cmd.length());  
 
@@ -164,9 +199,10 @@ Serial.println(rfid.uid.size);
          return;  
        }  
        
-       mySerial.print(cmd);  
-       delay(2000);  
-       //Serial.find("+IPD");  
+       mySerial.print(cmd); 
+
+       
+              
        while (Serial.available())  
        {  
          char c = Serial.read();  
@@ -174,8 +210,85 @@ Serial.println(rfid.uid.size);
          if(c=='\r') mySerial.print('\n');  
        }  
        Serial.println("====");  
-       delay(1000);  
-
+       delay(1000); 
        
+       
+       
+        String response = "";
+        int j=0;
+while (mySerial.available()) {
+      // output to the serial window
+      char c = mySerial.read(); // read the next character.
+      response += c;
+    }
+    Serial.print(response);
+    int index = response.indexOf("+IPD"); 
+    Serial.println(index);
+    if (index ==-1)
+    {
+      Serial.println("ipd error");
+      }
+    else   
+    {
+      Serial.println(response[index+7]); //모터 동작하기 위한 확인값 등록되면 1 / 아니면 0
+      if (response[index+7]=='0')
+      {
+        Serial.println("==등록되지 않은 사용자입니다==");
+        lcd.setCursor(0,0);
+        lcd.clear();
+        lcd.print("You are not");
+        lcd.setCursor(0,1);
+        lcd.print("registerd !!");
+        delay(5000);
+        }
+
+
+      
+      else if (response[index+7]== '1')
+      {
+        //모터 동작
+       
+         lcd.setCursor(0,0);
+         lcd.clear();
+        lcd.print("Take an Umbrella");
+        delay(1000);
+        
+          servo.attach(servo_Pin, min_value,max_value);
+           servo.write(90);       
+         delay(1000);
+        servo.write(180);
+        delay(5000);
+        servo.write(90);
+        delay(1000);
+        servo.detach();
+        
+        }
+
+      else if (response[index+7]=='2')
+      {
+        lcd.setCursor(0,0);
+         lcd.clear();
+        lcd.print("Return Umbrella!");
+        lcd.setCursor(0,1);
+        lcd.print("Thank you!");
+        delay(1000);
+        
+          servo.attach(servo_Pin, min_value,max_value);
+           servo.write(90);       
+         delay(1000);
+        servo.write(180);
+        delay(5000);
+        servo.write(90);
+        delay(1000);
+        servo.detach();
+
+
+        
+      }
+      
+    }
+      
+    
+
         
 }   
