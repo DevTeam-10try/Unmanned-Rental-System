@@ -19,7 +19,8 @@ int min_value = 544;
 int max_value = 2400;
 
 
-#include < SPI.h > #include < MFRC522.h > #define SDA_PIN 10 // SDA핀 설정
+#include < SPI.h > 
+#include < MFRC522.h > #define SDA_PIN 10 // SDA핀 설정
 #define RST_PIN 9 // RESET 핀 설정
 MFRC522 rfid(SDA_PIN, RST_PIN); // rfid로 객체 생성
 
