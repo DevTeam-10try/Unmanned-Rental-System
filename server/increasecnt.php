@@ -1,6 +1,6 @@
 <?php
 		parse_str(getenv("QUERY_STRING"));
-    		$conn = mysqli_connect("localhost","hahat17","10836gkwngus!", "db") or die("fail");
+    		$conn = mysqli_connect("localhost","user","passwd", "db") or die("fail");
 
     		$dbconn = mysqli_select_db($conn, $mysql_db);
 
