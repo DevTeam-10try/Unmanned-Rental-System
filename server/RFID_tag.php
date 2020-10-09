@@ -1,5 +1,5 @@
 <?php
-        $con = mysqli_connect("localhost","hahat17","10836gkwngus!","db");
+        $con = mysqli_connect("localhost","user","passwd","db");
 
         $card_id = $_GET['card_id'];
 
@@ -48,6 +48,5 @@
 		}	
 	
 	}
-     // echo ("<meta http-equiv='Refresh' content='1; URL=h_index_test.html'>");
 
 ?>
