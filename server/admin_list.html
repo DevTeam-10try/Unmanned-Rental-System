@@ -24,7 +24,7 @@ table{
 }
 
 th {
-	width: 150px;
+	width: auto;
             padding: 10px;
             font-weight: bold;
             vertical-align: top;
@@ -34,7 +34,7 @@ th {
 }
 
 td{
-	width: 350px;
+	width: auto;
             padding: 10px;
             vertical-align: top;
 }
@@ -62,7 +62,7 @@ td{
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
-	margin-left: 130px;
+	margin-left: 150px;
   }
 
 .button:hover {
@@ -78,15 +78,17 @@ td{
 </head>
 
 <body>
-	<h1>미반납자 리스트</h1>
+	<h1>등록자 관리</h1>
 	
 	<table>
 		<thead>
 			<tr>
 				<th>카드 ID</th>
-				<th>대여자 이름</th>
+				<th>이름</th>
 				<th>전화번호</th>
-				<th>대여시작시간</th>
+				<th>주소</th>
+				<th>등록날짜/시간</th>
+				<th>경고 횟수</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -97,17 +99,21 @@ td{
     			mysqli_query($conn, "set session character_set_connection=utf8;");
 			mysqli_query($conn, "set session character_set_results=utf8;");
 			mysqli_query($conn, "set session character_set_client=utf8;");
-    			$query = "select * from borrow";
+    			$query = "select * from membership";
     			$result = mysqli_query($conn, $query);
     			while($row = mysqli_fetch_array($result)){
 
-	  echo '<tr><td>'.$row['card_id'].'</td><td>' .$row['name'].'</td><td>'.$row['phonenumber'].'</td><td>' .$row['borrow_time'].'</td></tr>';
+	  echo '<tr><td>'.$row['card_id'].'</td><td>' .$row['name'].'</td><td>'.$row['phonenumber'].'</td><td>' .$row['address'].'</td><td>' .$row['register_time'].'</td><td>' .$row['alert'].'</td></tr>';
     			}
 	  		?>
 		</tbody>
 	</table>
 
 	<button type = "button" class="button" onclick = "location.href = 'index.html'">뒤로가기</button>
+<br>
+<br>
+	<button type = "button" class="button" onclick = "location.href = 'add_warningcnt.html'">경고횟수 추가하기</button>
+
 </body>
 </html>
 
